@@ -6,3 +6,4 @@
 * Haiyan Hu
 * Roger Kiew
 * Melissa Hollingshed
+* Chase Scott
