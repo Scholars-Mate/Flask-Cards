@@ -1,7 +1,0 @@
-git fetch origin
-git rebase origin/master
-
-git master
-git pull
-git merge
-git push
