@@ -1,145 +1,58 @@
-#skeleton of functions
-#Assume all Tables are global
+**skeleton of functions**
 
-```
-from flask import Flask, session, redirect, url_for, escape, request
-```
 
-#when the program starts
-```
-@app.route('/')
-def start():
-        if 'username' in session:
-		return 'Logged in as %s' %escape(session['username'])
-	else
-		return 'You are not logged in'
-```
-#take user's input, check if we have the user data in out database
-```
-@app.route('/login', methods = ['GET', 'POST'])
-def login():
-	#call a function to compare the password's hash value, if matched, return true, else return false
-	if(compare_hash(userName, password))
-		signedIn = true
-		return home_page
+**when the program starts**
+bool checkLogin():        
+check the login session, see if we can find user's information
+if yes, return true, else return no
 
-	else	
-		return login_page
-```
-#take the id and password, compare them with the data in our database
-```
-def compare_hash(str:userName, str:password)
-	#simple version: if(hashedPassword = Users.password) return true
-	if((hashedPassword = generateHash(password)) == SELECT password FROM Users WHERE Users.username == userName)
-		return true
-	else
-		return false
-```
 
-#register a new user, update the Users table
-```
-def registerANewUser(str:userName, str:password, str:fullName)
-	hashedPassword = generateHash(password)
-	INSERT INTO Users(username, fullname, hashedPassword)
-	VALUES(userName,  fullName, hashedPassword)
-```
+**take user's input, check if we have the user data in out database**
+bool login(username:str, password:str):
+call a hash function to generate the hashed password, and compare it and the username with the Users table, 
+if they matched return true, else return false
 
-#if successfully logged in, display the card sets of the user
-```
-def displayMySets(int:userid) 
-	SELECT * FROM Sets
-	WHERE Sets.id == userid
+**register a new user, update the Users table**
+bool registerANewUser(username:str, password:str, fullName:str)
+call hash function to get hashedPassword
+take the username, hashedPassword, fullName and insert them to Users table
+if successfully inserted, return true, else return false
 
-```
-#display the cards in a set in the user's account
-```
-def displayCardsInASet(int:userid, int:setsid)
-	SELECT * FROM Cards
-	WHERE Cards.setid == Sets.id && Sets.userid == userid
-```
+**if successfully logged in, display the card sets of the user**
+bool displayMySets(userid:int) 
+take the userid, display all sets in his account
+if successfully read the sets, return true, else return false
 
-#add a card
-```
-def addCard(cardFront:str, cardBack:str)
-	INSERT INTO Cards(front, back, indicator, createdate) VALUES(cardFront, cardBack, false, 
-	                                                            TO_DATE('2017/11/20', 'YYYY/MM/DD'))
-	#the above TO_DATE function will get the systym time
-        if successfully added to table, return true
-	else return false
+**if the user clicked on 1 set, display it**
+bool displayOneSet(userid:int, setid:int)
+get all cards with a specific userid in a set
 
-```
+**add a card**
+bool addCard(cardFront = '':str, cardBack = '':str, setid:int)
+take the information on a card's front side and/or back side, insert it to Cards table and assign a set to it
+if successfully added it, return true, else return false
 
-#add a card to a set
-```
-def addToSet(int:userid, str:setName, int:categoryid)
-	INSERT INTO Sets(name, userid, createdate) VALUES(setName, userid, caterotyid, 
-								TO_DATE('2017/11/20, YYYY/MM/DD'))
-def addToSet(int:userid, str:setName)
-	INSERT INTO Sets(name, userid, createdate) VALUES(setName, userid,
-								TO_DATE('2017/11/20, YYYY/MM/DD'))
-	if successfully added to table, return true
-	else return false
-```
+**edit a card**
+bool editCard(cardid:int, cardFront:str, cardBack:str, setid:int)
+edit a card's information
+if successfully edited it, return true, else return false
 
-#edit a card
-```
-def editCard(str:cardFront, str:cardBack)
-UPDATE Cards
-	SET front = cardFront, back = cardBack
 
-def editCard(str:cardFront)
-	UPDATE Cards
-	SET front = cardFront
+**delete a card**
+deleteCard(cardid:str)
+delete a card from Cards table
+if successfully deleted it, return true, else return false
 
-editCard(NULL, str:CardBack)
-	UPDATE Cards
-	SET back = cardBack
-	
-	if successfully updated table, return true
-	else return false
-	according to the parameters, we should have different actions
-```
+**set the card indicator to 0 or 1**
+indicateCard(cardid:int, answer:int = 0)
+take a cardid and a number which needs to be 0 or 1
+set the card's indicator to the number
+if successfully changed it's value, return true, else return false
 
-#delete a card
-```
-deleteCard(int:cardid)
-	DELETE FROM Cards
-	WHERE id = cardid
-	cardSetid = Cards.setid
-	deleteCardFromSet(int:cardSetid)
-
-	if successfully deleted the card, return true
-	else return false
-```
-
-#delete a card from a set
-```
-deleteCardFromSet(int:cardSetid)
-	DELETE FROM Sets
-	WHERE Sets.id == cardSetid)
-	
-	if successfully deleted the card from a set, return true
-	else return false
-```
-
-#indicat the user can recognize the card of not
-```
-indicateCard(int:answer)
-	UPDATE Cards
-	SET indicator = answer #must be 0,1 or NULL
-	if successfully updated the indicator, return true
-	else return false
-```
-
-#settings
-```
+**settings**
 resetCards()
-	DROP SCHEMA IF EXISTS Cards
+delete evething in the Cards table
 resetSets()
-	DROP SCHEMA IF EXISTS Sets
+delete everthing in the Sets table
 SignOut()
-	SignedIn = false
-	
-	if successfully reset the cards/sets or signed out, return true
-	else return false
-```
+sign out the user
