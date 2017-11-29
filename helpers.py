@@ -51,7 +51,23 @@ def getCards(setid:int):
     'back'
     'indicator'
     """
-    pass
+    # Get Database connection and cursor
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+
+    # Execute the SQL
+    s = 'SELECT id, front, back, indicator FROM Cards WHERE setid = %s'
+    cursor.execute(s, (setid,))
+    results = cursor.fetchall()
+
+    # Pack the results into a list of dictionaries
+    ret = []
+    for row in results:
+        ret.append({'id': row[0],
+                    'front': row[1].decode(),
+                    'back': row[2].decode(),
+                    'indicator': row[3]})
+    return(ret)
 
 def addCard(cardFront:str, cardBack:str, setid:int) -> bool:
     """Add a new card to the given set
