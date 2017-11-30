@@ -133,4 +133,10 @@ def signOut() -> bool:
 
     If the user was successfully signed out, return true, else return false
     """
-    pass
+    
+    if  session.pop('logged_in', None):
+        flash('You were logged out')
+        return True
+    else
+        return False
+
