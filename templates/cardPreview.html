@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link href='css/rotating-card.css' rel='stylesheet' />
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://google-code prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    
+    <style>
+        .card-container{
+            max-width: 300px;
+            margin: auto;
+            padding: 10px; 
+               
+        }
+    </style>
+    
+</head>
+<!-- End head --> 
+<!--Start body --> 
+<body>
+    
+<!-- start nav bar -->
+    <nav class="navbar fixed-top navbar-toggleable-md navbar-inverse bg-primary">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    <a class="navbar-brand" href="#">Flask Card</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">setting</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Login</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+<!--end nav bar-->
+    
+<!-- Title --> 
+    <div class="jumbotron"> 
+        <h1 class="title">
+            FlaskCards 
+            <br>
+            <small>card preview</small>
+        </h1>
+    </div>
+<!-- End Title-->
+    
+ <!--button to add-->   
+    <div>
+        <button onclick="appendText()">add</button>
+        <input type="number" id="inc" value="0">
+    </div>
+ <!-- must change "add" to the same icon April used-->    
+       
+      <div class="row" id="flashCard">
+    <div class="container">
+      <div class="row">
+
+      
+<!-- start of flashCard addition with rotating elements --> 
+<script>
+var i = 0;
+
+function appendText() {
+
+document.getElementById('inc').value = ++i;
+var k = document.getElementById('inc').value / 2;
+var q = document.getElementById('inc').value % 2;
+var card =
+        '<div class="card-container">' +
+            '<div class="card">'+
+    
+                '<div class="front">'+
+                    '<div class="cover">'+
+                        '<img src="images/rotating_card_thumb2.png"/>'+
+                    '</div>'+
+                    '<div class="content">'+
+                        '<div class="main">'+
+                            '<h2 class="name">Database </h2>'+
+                            '<p class="profession">Class</p>'+
+                            '<p class="text-center">Schema</p>'+
+                        '</div>'+
+                        '<div class="footer">'+
+                            '<i class="fa fa-mail-forward"></i> Auto Rotation'+
+                        '</div>'+
+                    '</div>'+
+                '</div>'+ //end front panel
+    
+                '<div class="back">'+
+                    '<div class="header">'+
+                        '<div class="content">'+
+                            '<div class="main">'+
+                                '<h4 class="text-center">Definition</h4>'+
+                                '<p class="text-center">representation of a plan or theory in the form of an outline or model.</p>'+
+
+                                    '<div class="stats-container">'+
+                                        '<div class="stats">'+
+                                            '<h4 id="counter1">0</h4>'+
+                                            '<p>'+
+                                            'Correct'+
+                                            '</p>'+
+                                            '<button type="button" class="btn btn-primary" onclick="correctFunction()">Count!</button>'+
+                                        '</div>'+
+                                        '<div class="stats">'+
+                                            '<h4 id="counter2">0</h4>'+
+                                            '<p>'+
+                                            'Wrong'+
+                                            '</p>'+
+                                            '<button type="button" class="btn btn-primary" onclick="incorrectFunction()">Count!</button>'+
+                                        '</div>'+
+                                        '<div class="stats">'+
+                                            '<h4 id="counter3">0</h4>'+
+                                            '<p>'+
+                                            'Total'+
+                                            '</p>'+
+                                            
+                                        '</div>'+
+                                    '</div>'+
+    
+                             '</div>'+
+                        '</div>'+
+                    '</div>'+//end back panel
+    
+            '</div>'+
+    '</div> '+
+'</div> '
+          
+
+$(document.getElementById('flashCard')).append(card);
+
+
+} </script>
+        
+          
+<script src="js/jquery-1.10.2.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    
+    $().ready(function(){
+    $('[rel="tooltip"]').tooltip();
+
+    });
+          
+//<!--RotateCard script-->
+    function rotateCard(btn){
+    var $card = $(btn).closest('.card-container');
+    console.log($card);
+    if($card.hasClass('hover')){
+        $card.removeClass('hover');
+    } else {
+        $card.addClass('hover');
+    }
+    }
+</script>
+
+<!--Script for counters --->
+<script>
+        var add = 
+            (function () {
+        var countIt = 0;
+        return function () {
+            return countIt += 1;}
+    })();
+
+    function correctFunction(){ 
+        document.getElementById("counter1").innerHTML = add();
+    }   
+</script>
+          
+    <script>
+    var add = (function () {
+        var countIt = 0;
+        return function () {return countIt += 1;}
+    })();
+
+ 
+        function incorrectFunction(){ 
+         document.getElementById("counter2").innerHTML = add();
+    }
+          
+    </script>
+<!--end script-->
+
+    </body>
+    </html>
