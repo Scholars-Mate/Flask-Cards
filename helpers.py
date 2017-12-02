@@ -40,7 +40,15 @@ def getSets(userid:int):
     'name'
     'category'
     """
-    pass
+   # SQL Query
+    statement = 'SELECT * FROM Sets WHERE Sets.userid = %s;'
+    cursor.execute(statement, (userid;))
+
+    # result is an array of arrays with each subarray representing a row
+    # In this case, we may get 1 or more or 0 results
+    result = cursor.fetchall()
+    
+    #not quite sure if we need to fix it or not
 
 def getCards(setid:int):
     """Get all the cards in the given set
