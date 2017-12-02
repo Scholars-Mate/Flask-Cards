@@ -118,7 +118,7 @@ def editCard(cardid:int, cardFront:str, cardBack:str) -> bool:
     
     # Check if the data is inserted to the Cards table
     statement = 'SELECT * FROM Cards WHERE Cards.id = %d;'
-    cursor.execute(statement, (cardid;))
+    cursor.execute(statement, (cardid,))
     result = cursor.fetchall()
     if result[2] != cardFront || result[3] != cardBack:
         return (False)
@@ -132,8 +132,24 @@ def deleteCard(cardid:id) -> bool:
 
     If successfully deleted, return true, else return false
     """
-    pass
-
+    
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+    
+    # SQL Query
+    statement = 'DELETE FROM Cards WHERE id = %d;'
+    cursor.execute(statement, (cardid,))
+    
+    # Check if the data is still in the Cards table
+    statement = 'SELECT * FROM Cards WHERE Cards.id= %s;'
+    cursor.execute(statement, (cardid,))
+    result = cursor.fetchall()
+    if len(result) != 0:
+        return (False)
+    else:
+        return (True)
+    
 def indicateCard(cardid:int, indicator:bool = False) -> bool:
     """Set the indicator to True or False
 
