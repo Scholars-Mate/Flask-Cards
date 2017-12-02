@@ -72,7 +72,15 @@ def getCards(setid:int):
     'back'
     'indicator'
     """
-    pass
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+    
+    # result is an array of arrays with each subarray representing a row
+    # In this case, we may get 1 or more or 0 results
+    result = cursor.fetchall()
+
+    #not quite sure if we need to fix it or not
 
 def addCard(cardFront:str, cardBack:str, setid:int) -> bool:
     """Add a new card to the given set
@@ -81,28 +89,96 @@ def addCard(cardFront:str, cardBack:str, setid:int) -> bool:
     to the given set
     If the card was successfully added, return true, else return false
     """
-    pass
-
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+    
+    # SQL Query
+    statement = 'INSERT INTO Cards(front, back, indicator, createdate) VALUES(%s, %s, %s, TO_DATE('2017/11/20', YYYY/MM/DD));'
+    data = (cardFront, cardBack, false)
+    cursor.execute(statement, data)
+    
+    # Check if the data is inserted to the Cards table
+    statement = 'SELECT * FROM Cards WHERE front = %s AND back = %s;'
+    data = (cardFront, cardBack)
+    cursor.execute(statement, data)
+    result = cursor.fetchall()
+    if len(result) < 1:
+        return (False)
+    else:
+        return (True)
+    
 def editCard(cardid:int, cardFront:str, cardBack:str) -> bool:
     """Modify a card
 
     If successfully edited, return true, else return false
     """
-    pass
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+    
+    # SQL Query
+    statement = 'UPDATE Cards SET front = %s, back = %s WHERE Cards.id = %d;'
+    data = (cardFront, cardBack, cardid)
+    cursor.execute(statement, data)
+    
+    # Check if the data is inserted to the Cards table
+    statement = 'SELECT * FROM Cards WHERE Cards.id = %d;'
+    cursor.execute(statement, (cardid,))
+    result = cursor.fetchall()
+    if result[2] != cardFront || result[3] != cardBack:
+        return (False)
+    else:
+        return (True)
+    
+    #not sure if it's correct, need to test with database
 
 def deleteCard(cardid:id) -> bool:
     """Delete a card
 
     If successfully deleted, return true, else return false
     """
-    pass
-
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+    
+    # SQL Query
+    statement = 'DELETE FROM Cards WHERE id = %d;'
+    cursor.execute(statement, (cardid,))
+    
+    # Check if the data is still in the Cards table
+    statement = 'SELECT * FROM Cards WHERE Cards.id= %s;'
+    cursor.execute(statement, (cardid,))
+    result = cursor.fetchall()
+    if len(result) != 0:
+        return (False)
+    else:
+        return (True)
+    
 def indicateCard(cardid:int, indicator:bool = False) -> bool:
     """Set the indicator to True or False
 
     If successfully changed it's value, return true, else return false
     """
-    pass
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+    
+    # SQL Query
+    statement = 'UPDATE Cards SET indicator = %(indicator)s WHERE Cards.id = %d;'
+    data = (indicator, cardid)
+    cursor.execute(statement, data)
+    
+    # Check if the data is inserted to the Cards table
+    statement = 'SELECT * FROM Cards WHERE Cards.id = %d;'
+    cursor.execute(statement, (cardid,))
+    result = cursor.fetchall()
+    if result[4] != indicator):
+        return (False)
+    else:
+        return (True)
+    
+    #not sure if it's correct, need to test with database
 
 def addCategory(categoryName:str) -> bool:
     """Add a new category
@@ -110,7 +186,23 @@ def addCategory(categoryName:str) -> bool:
     Create a new category with the given name, and the userid from the session
     If successfully added, return true, else return false
     """
-    pass
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+    
+    # SQL Query
+    statement = 'INSERT INTO Category(userid, name) VALUES(%d, %s)'
+    data = (userid, categoryName)
+    cursor.execute(statement, data)
+    
+    # Check if the data is inserted to the Cards table
+    statement = 'SELECT * FROM Category WHERE Category.name = %s;'
+    cursor.execute(statement, (categoryName,))
+    result = cursor.fetchall()
+    if len(result) < 1:
+        return (False)
+    else:
+        return (True)
 
 def addSet(setName:str, categoryid:int) -> bool:
     """Add a new set
@@ -119,39 +211,102 @@ def addSet(setName:str, categoryid:int) -> bool:
     userid from the session
     If successful, return true, else return false
     """
-    pass
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+    
+    # SQL Query
+    statement = 'INSERT INTO Set(name, categoryid, userid, createdate) VALUES(%s, %d, %d, TO_DATE('2017/11/20', YYYY/MM/DD));'
+    data = (setName, categoryid, userid)
+    cursor.execute(statement, data)
+    
+    # Check if the data is inserted to the Cards table
+    statement = 'SELECT * FROM Sets WHERE Sets.name = %s;'
+    cursor.execute(statement, (setName,))
+    result = cursor.fetchall()
+    if len(result) < 1:
+        return (False)
+    else:
+        return (True)
 
 def modifySet(setid:int, newName:str) -> bool:
     """Change a set's name
 
     If successful, return true, else return false
     """
-    pass
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+    
+    # SQL Query
+    statement = 'UPDATE Sets name = %s WHERE Sets.id = %d;'
+    data = (newName, setid)
+    cursor.execute(statement, data)
+    
+    # Check if the data is inserted to the Cards table
+    statement = 'SELECT * FROM Sets WHERE Sets.id = %d;'
+    cursor.execute(statement, (setid,))
+    result = cursor.fetchone()
+    if result[1] != newName:
+        return (False)
+    else:
+        return (True)
 
 def modifyCategory(categoryid:int, newName:str) -> bool:
     """Change a category's name
 
     If successful, return true, else return false
     """
-    pass
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+    
+    # SQL Query
+    statement = 'UPDATE Category name = %s WHERE Category.id = %d;'
+    data = (newName, categoryid)
+    cursor.execute(statement, data)
+    
+    # Check if the data is inserted to the Cards table
+    statement = 'SELECT * FROM Category WHERE Category.id = %d;'
+    cursor.execute(statement, (categoryid,))
+    result = cursor.fetchone()
+    if result[1] != newName:
+        return (False)
+    else:
+        return (True)
 
 def deleteSets(setid:int) -> bool:
     """Delete a set and all cards belonging to it
 
     If successful, return true, else return false
     """
-    pass
-
-def deleteCategory(categoryid: int) -> bool:
-    """Delete a category and all sets belonging to it
-
-    If successful, return true, else return false
-    """
-    pass
-
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+    
+    # SQL Query
+    statement = 'DELETE FROM Sets WHERE id = %d;'
+    cursor.execute(statement, (setid,))
+    
+    # Check if the data is still in the Cards table
+    statement = 'SELECT * FROM Sets WHERE Sets.id= %d;'
+    cursor.execute(statement, (cardid,))
+    result = cursor.fetchall()
+    if len(result) != 0:
+        return (False)
+    else:
+        return (True)
+    
 def signOut() -> bool:
     """Sign out the user
 
     If the user was successfully signed out, return true, else return false
     """
-    pass
+    # Set session values and return
+
+    session.pop('logged_in')
+    
+    if session['userid']:
+        return(False)
+    else:
+        return (True)
