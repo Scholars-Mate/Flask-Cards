@@ -40,7 +40,28 @@ def getSets(userid:int):
     'name'
     'category'
     """
-    pass
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+
+    # SQL Query
+    statement = ('SELECT s.id, s.name, c.name '
+                 'FROM Sets s INNER JOIN Category c ON s.categoryid = c.id '
+                 'WHERE s.userid = %s'
+                )
+    cursor.execute(statement, (userid,))
+
+    # result is an array of arrays with each subarray representing a row
+    # In this case, we may get 1 or more or 0 results
+    rows = cursor.fetchall()
+
+    # Pack the results into dictionaries
+    result = []
+    for row in rows:
+        d = {'id': row[0], 'name': row[1].decode(), 'category': row[2].decode()}
+        result.append(d)
+
+    return result
 
 def getCards(setid:int):
     """Get all the cards in the given set
