@@ -63,7 +63,6 @@ def getCards(setid:int):
     'back'
     'indicator'
     """
-
     # Get a connection to the database and a cursor to use
     conn = getConnection()
     cursor = conn.cursor(prepared=True)
@@ -81,7 +80,6 @@ def addCard(cardFront:str, cardBack:str, setid:int) -> bool:
     to the given set
     If the card was successfully added, return true, else return false
     """
-    
     # Get a connection to the database and a cursor to use
     conn = getConnection()
     cursor = conn.cursor(prepared=True)
@@ -106,7 +104,6 @@ def editCard(cardid:int, cardFront:str, cardBack:str) -> bool:
 
     If successfully edited, return true, else return false
     """
-    
     # Get a connection to the database and a cursor to use
     conn = getConnection()
     cursor = conn.cursor(prepared=True)
@@ -132,7 +129,6 @@ def deleteCard(cardid:id) -> bool:
 
     If successfully deleted, return true, else return false
     """
-    
     # Get a connection to the database and a cursor to use
     conn = getConnection()
     cursor = conn.cursor(prepared=True)
@@ -155,7 +151,25 @@ def indicateCard(cardid:int, indicator:bool = False) -> bool:
 
     If successfully changed it's value, return true, else return false
     """
-    pass
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+    
+    # SQL Query
+    statement = 'UPDATE Cards SET indicator = %(indicator)s WHERE Cards.id = %d;'
+    data = (indicator, cardid)
+    cursor.execute(statement, data)
+    
+    # Check if the data is inserted to the Cards table
+    statement = 'SELECT * FROM Cards WHERE Cards.id = %d;'
+    cursor.execute(statement, (cardid,))
+    result = cursor.fetchall()
+    if result[4] != indicator):
+        return (False)
+    else:
+        return (True)
+    
+    #not sure if it's correct, need to test with database
 
 def addCategory(categoryName:str) -> bool:
     """Add a new category
