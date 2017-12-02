@@ -40,7 +40,8 @@ def getSets(userid:int):
     'name'
     'category'
     """
-   # SQL Query
+    
+    # SQL Query
     statement = 'SELECT * FROM Sets WHERE Sets.userid = %s;'
     cursor.execute(statement, (userid;))
 
@@ -59,7 +60,16 @@ def getCards(setid:int):
     'back'
     'indicator'
     """
-    pass
+    
+    # SQL Query
+    statement = 'SELECT * FROM Cards WHERE Cards.setid = %s;'
+    cursor.execute(statement, (setid;))
+
+    # result is an array of arrays with each subarray representing a row
+    # In this case, we may get 1 or more or 0 results
+    result = cursor.fetchall()
+
+    #not quite sure if we need to fix it or not
 
 def addCard(cardFront:str, cardBack:str, setid:int) -> bool:
     """Add a new card to the given set
