@@ -177,7 +177,6 @@ def addCategory(categoryName:str) -> bool:
     Create a new category with the given name, and the userid from the session
     If successfully added, return true, else return false
     """
-
     # Get a connection to the database and a cursor to use
     conn = getConnection()
     cursor = conn.cursor(prepared=True)
@@ -203,7 +202,23 @@ def addSet(setName:str, categoryid:int) -> bool:
     userid from the session
     If successful, return true, else return false
     """
-    pass
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+    
+    # SQL Query
+    statement = 'INSERT INTO Set(name, categoryid, userid, createdate) VALUES(%s, %d, %d, TO_DATE('2017/11/20', YYYY/MM/DD));'
+    data = (setName, categoryid, userid)
+    cursor.execute(statement, data)
+    
+    # Check if the data is inserted to the Cards table
+    statement = 'SELECT * FROM Sets WHERE Sets.name = %s;'
+    cursor.execute(statement, (setName,))
+    result = cursor.fetchall()
+    if len(result) < 1:
+        return (False)
+    else:
+        return (True)
 
 def modifySet(setid:int, newName:str) -> bool:
     """Change a set's name
