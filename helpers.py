@@ -40,7 +40,10 @@ def getSets(userid:int):
     'name'
     'category'
     """
-    
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+
     # SQL Query
     statement = 'SELECT * FROM Sets WHERE Sets.userid = %s;'
     cursor.execute(statement, (userid;))
@@ -60,11 +63,11 @@ def getCards(setid:int):
     'back'
     'indicator'
     """
-    
-    # SQL Query
-    statement = 'SELECT * FROM Cards WHERE Cards.setid = %s;'
-    cursor.execute(statement, (setid;))
 
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+    
     # result is an array of arrays with each subarray representing a row
     # In this case, we may get 1 or more or 0 results
     result = cursor.fetchall()
@@ -78,8 +81,26 @@ def addCard(cardFront:str, cardBack:str, setid:int) -> bool:
     to the given set
     If the card was successfully added, return true, else return false
     """
-    pass
-
+    
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+    
+    # SQL Query
+    statement = 'INSERT INTO Cards(front, back, indicator, createdate) VALUES(%s, %s, %s, TO_DATE('2017/11/20', YYYY/MM/DD));'
+    data = (cardFront, cardBack, false)
+    cursor.execute(statement, data)
+    
+    # Check if the data is inserted to the Cards table
+    statement = 'SELECT * FROM Cards WHERE front = %s AND back = %s;'
+    data = (cardFront, cardBack)
+    cursor.execute(statement, data)
+    result = cursor.fetchall()
+    if len(result) < 1:
+        return (False)
+    else:
+        return (True)
+    
 def editCard(cardid:int, cardFront:str, cardBack:str) -> bool:
     """Modify a card
 
@@ -151,4 +172,6 @@ def signOut() -> bool:
 
     If the user was successfully signed out, return true, else return false
     """
-    pass
+    pass connection to the database and a cursor to use
+    conn = getConnection()
+        cursor = conn.cursor(prepared=True)u 
