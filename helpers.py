@@ -293,6 +293,11 @@ def signOut() -> bool:
 
     If the user was successfully signed out, return true, else return false
     """
-    pass connection to the database and a cursor to use
-    conn = getConnection()
-        cursor = conn.cursor(prepared=True)u 
+    # Set session values and return
+
+    session.pop('logged_in')
+    
+    if session['userid']:
+        return(False)
+    else:
+        return (True)
