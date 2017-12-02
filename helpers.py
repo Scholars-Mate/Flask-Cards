@@ -226,6 +226,23 @@ def modifySet(setid:int, newName:str) -> bool:
     If successful, return true, else return false
     """
     pass
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+    
+    # SQL Query
+    statement = 'UPDATE Sets name = %s WHERE Sets.id = %d;'
+    data = (newName, setid)
+    cursor.execute(statement, data)
+    
+    # Check if the data is inserted to the Cards table
+    statement = 'SELECT * FROM Sets WHERE Sets.id = %d;'
+    cursor.execute(statement, (setid,))
+    result = cursor.fetchone()
+    if result[1] != newName:
+        return (False)
+    else:
+        return (True)
 
 def modifyCategory(categoryid:int, newName:str) -> bool:
     """Change a category's name
