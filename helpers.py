@@ -177,7 +177,24 @@ def addCategory(categoryName:str) -> bool:
     Create a new category with the given name, and the userid from the session
     If successfully added, return true, else return false
     """
-    pass
+
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+    
+    # SQL Query
+    statement = 'INSERT INTO Category(userid, name) VALUES(%d, %s)'
+    data = (userid, categoryName)
+    cursor.execute(statement, data)
+    
+    # Check if the data is inserted to the Cards table
+    statement = 'SELECT * FROM Category WHERE Category.name = %s;'
+    cursor.execute(statement, (categoryName,))
+    result = cursor.fetchall()
+    if len(result) < 1:
+        return (False)
+    else:
+        return (True)
 
 def addSet(setName:str, categoryid:int) -> bool:
     """Add a new set
