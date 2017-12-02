@@ -271,15 +271,23 @@ def deleteSets(setid:int) -> bool:
 
     If successful, return true, else return false
     """
-    pass
-
-def deleteCategory(categoryid: int) -> bool:
-    """Delete a category and all sets belonging to it
-
-    If successful, return true, else return false
-    """
-    pass
-
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+    
+    # SQL Query
+    statement = 'DELETE FROM Sets WHERE id = %d;'
+    cursor.execute(statement, (setid,))
+    
+    # Check if the data is still in the Cards table
+    statement = 'SELECT * FROM Sets WHERE Sets.id= %d;'
+    cursor.execute(statement, (cardid,))
+    result = cursor.fetchall()
+    if len(result) != 0:
+        return (False)
+    else:
+        return (True)
+    
 def signOut() -> bool:
     """Sign out the user
 
