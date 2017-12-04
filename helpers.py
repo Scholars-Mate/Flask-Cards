@@ -1,7 +1,10 @@
 from flask import session
+from flask import Flask
 from werkzeug.security import check_password_hash
 from dbconnection import getConnection
 
+app = FLASK(__name__)
+@app.route('/')
 def logIn(username: str, password: str) -> bool:
     """Attempt to log a user in
 
@@ -32,6 +35,7 @@ def logIn(username: str, password: str) -> bool:
     session['userid'] = result[0]
     return(True)
 
+@app.route('/getSets/<userid>')
 def getSets(userid:int):
     """Take the userid, display all sets in their account
 
@@ -46,7 +50,7 @@ def getSets(userid:int):
 
     # SQL Query
     statement = 'SELECT * FROM Sets WHERE Sets.userid = %s;'
-    cursor.execute(statement, (userid;))
+    cursor.execute(statement, (userid,))
 
     # result is an array of arrays with each subarray representing a row
     # In this case, we may get 1 or more or 0 results
@@ -85,8 +89,8 @@ def addCard(cardFront:str, cardBack:str, setid:int) -> bool:
     cursor = conn.cursor(prepared=True)
     
     # SQL Query
-    statement = 'INSERT INTO Cards(front, back, indicator, createdate) VALUES(%s, %s, %s, TO_DATE('2017/11/20', YYYY/MM/DD));'
-    data = (cardFront, cardBack, false)
+    statement = 'INSERT INTO Cards(front, back, indicator, createdate) VALUES(%s, %s, %s, %s);'
+    data = (cardFront, cardBack, false, "TO_DATE(\'2017/11/20\', YYYY/MM/DD)")
     cursor.execute(statement, data)
     
     # Check if the data is inserted to the Cards table
@@ -117,7 +121,7 @@ def editCard(cardid:int, cardFront:str, cardBack:str) -> bool:
     statement = 'SELECT * FROM Cards WHERE Cards.id = %d;'
     cursor.execute(statement, (cardid,))
     result = cursor.fetchall()
-    if result[2] != cardFront || result[3] != cardBack:
+    if result[2] != cardFront or result[3] != cardBack:
         return (False)
     else:
         return (True)
@@ -164,7 +168,7 @@ def indicateCard(cardid:int, indicator:bool = False) -> bool:
     statement = 'SELECT * FROM Cards WHERE Cards.id = %d;'
     cursor.execute(statement, (cardid,))
     result = cursor.fetchall()
-    if result[4] != indicator):
+    if result[4] != indicator:
         return (False)
     else:
         return (True)
@@ -207,8 +211,8 @@ def addSet(setName:str, categoryid:int) -> bool:
     cursor = conn.cursor(prepared=True)
     
     # SQL Query
-    statement = 'INSERT INTO Set(name, categoryid, userid, createdate) VALUES(%s, %d, %d, TO_DATE('2017/11/20', YYYY/MM/DD));'
-    data = (setName, categoryid, userid)
+    statement = 'INSERT INTO Set(name, categoryid, userid, createdate) VALUES(%s, %d, %d, %s);'
+    data = (setName, categoryid, userid, 'TO_DATE(\'2017/11/20\', YYYY/MM/DD)')
     cursor.execute(statement, data)
     
     # Check if the data is inserted to the Cards table
