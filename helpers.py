@@ -52,9 +52,11 @@ def getSets(userid:int):
     # result is an array of arrays with each subarray representing a row
     # In this case, we may get 1 or more or 0 results
     result = cursor.fetchall()
-    return result
-    #not quite sure if we need to fix it or not
+    ret = []
+    for row in result:
+        ret.append({'id': row[0], 'name': row[1].decode(), 'category' : row[2]})
 
+    return ret
 def getCards(setid:int):
     """Get all the cards in the given set
 
@@ -75,8 +77,10 @@ def getCards(setid:int):
     # result is an array of arrays with each subarray representing a row
     # In this case, we may get 1 or more or 0 results
     result = cursor.fetchall()
-    return result
-    #not quite sure if we need to fix it or not
+    ret = []
+    for row in result:
+        ret.append({'id': row[0], 'front': row[2].decode(), 'back' : row[3].decode(), 'indicator': row[3] })
+    return ret
 
 def addCard(cardFront:str, cardBack:str, setid:int) -> bool:
     """Add a new card to the given set
@@ -93,16 +97,8 @@ def addCard(cardFront:str, cardBack:str, setid:int) -> bool:
     statement = 'INSERT INTO Cards(front, back, setid) VALUES(%s, %s, %s);'
     data = (cardFront, cardBack, setid)
     cursor.execute(statement, data)
-    
-    # Check if the data is inserted to the Cards table
-    statement = 'SELECT * FROM Cards WHERE front = %s AND back = %s AND setid = %s;'
-    data = (cardFront, cardBack, setid)
-    cursor.execute(statement, data)
-    result = cursor.fetchall()
-    if len(result) != 1:
-        return (False)
-    else:
-        return (True)
+    conn.commit()
+    return (True)
     
 def editCard(cardid:int, cardFront:str, cardBack:str) -> bool:
     """Modify a card
@@ -117,18 +113,8 @@ def editCard(cardid:int, cardFront:str, cardBack:str) -> bool:
     statement = 'UPDATE Cards SET front = %s, back = %s WHERE Cards.id = %s;'
     data = (cardFront, cardBack, cardid)
     cursor.execute(statement, data)
-    
-    # Check if the data is inserted to the Cards table
-    statement = 'SELECT * FROM Cards WHERE Cards.id = %s;'
-    cursor.execute(statement, (cardid,))
-    result = cursor.fetchall()
-    return result
-#    if result[2] != cardFront or result[3] != cardBack:
-#        return (False)
-#    else:
-#        return (True)
-    
-    #not sure if it's correct, need to test with database
+    conn.commit()
+    return (True)
 
 def deleteCard(cardid:id) -> bool:
     """Delete a card
@@ -142,17 +128,9 @@ def deleteCard(cardid:id) -> bool:
     # SQL Query
     statement = 'DELETE FROM Cards WHERE Cards.id = %s;'
     cursor.execute(statement, (cardid,))
-    
-    # Check if the data is still in the Cards table
-    statement = 'SELECT * FROM Cards WHERE Cards.id= %s;'
-    cursor.execute(statement, (cardid,))
-    result = cursor.fetchall()
-    if len(result) != 0:
-        return (False)
-    else:
-        return (True)
-    #the statement isn't working on mysql for some reason
-    
+    conn.commit()
+    return (True) 
+
 def indicateCard(cardid:int, indicator:bool = False) -> bool:
     """Set the indicator to True or False
 
@@ -165,19 +143,10 @@ def indicateCard(cardid:int, indicator:bool = False) -> bool:
     # SQL Query
     statement = 'UPDATE Cards SET indicator = %(indicator)s WHERE Cards.id = %s;'
     data = (indicator, cardid)
-    cursor.execute(statement, data)
+    cursor.execute(statement, data) 
+    conn.commit()
+    return (True)
     
-    # Check if the data is inserted to the Cards table
-    statement = 'SELECT * FROM Cards WHERE Cards.id = %s;'
-    cursor.execute(statement, (cardid,))
-    result = cursor.fetchall()
-    if result[4] != indicator:
-        return (False)
-    else:
-        return (True)
-    
-    #not sure if it's correct, need to test with database
-
 def addCategory(categoryName:str) -> bool:
     """Add a new category
 
@@ -192,15 +161,8 @@ def addCategory(categoryName:str) -> bool:
     statement = 'INSERT INTO Category(userid, name) VALUES(%d, %s)'
     data = (userid, categoryName)
     cursor.execute(statement, data)
-    
-    # Check if the data is inserted to the Cards table
-    statement = 'SELECT * FROM Category WHERE Category.name = %s;'
-    cursor.execute(statement, (categoryName,))
-    result = cursor.fetchall()
-    if len(result) < 1:
-        return (False)
-    else:
-        return (True)
+    conn.commit() 
+    return (True)
 
 def addSet(setName:str, categoryid:int) -> bool:
     """Add a new set
@@ -217,15 +179,8 @@ def addSet(setName:str, categoryid:int) -> bool:
     statement = 'INSERT INTO Set(name, categoryid, userid ) VALUES(%s, %s, %s);'
     data = (setName, categoryid, userid)
     cursor.execute(statement, data)
-    
-    # Check if the data is inserted to the Cards table
-    statement = 'SELECT * FROM Sets WHERE Sets.name = %s;'
-    cursor.execute(statement, (setName,))
-    result = cursor.fetchall()
-    if len(result) < 1:
-        return (False)
-    else:
-        return (True)
+    conn.commit()
+    return (True)
 
 def addCategory(categoryName:str) -> bool:
     """Add a new category
@@ -242,15 +197,8 @@ def addCategory(categoryName:str) -> bool:
     statement = 'INSERT INTO Category(name,userid ) VALUES( %s, %s);'
     data = (categoryName, userid)
     cursor.execute(statement, data)
-    
-    # Check if the data is inserted to the Cards table
-    statement = 'SELECT * FROM Category WHERE Category.name = %s;'
-    cursor.execute(statement, (categoryName,))
-    result = cursor.fetchall()
-    if len(result) < 1:
-        return (False)
-    else:
-        return (True)
+    conn.commit()
+    return (True)
 
 def modifySet(setid:int, newName:str) -> bool:
     """Change a set's name
@@ -265,15 +213,8 @@ def modifySet(setid:int, newName:str) -> bool:
     statement = 'UPDATE Sets name = %s WHERE Sets.id = %s;'
     data = (newName, setid)
     cursor.execute(statement, data)
-    
-    # Check if the data is inserted to the Cards table
-    statement = 'SELECT * FROM Sets WHERE Sets.id = %s;'
-    cursor.execute(statement, (setid,))
-    result = cursor.fetchone()
-    if result[1] != newName:
-        return (False)
-    else:
-        return (True)
+    conn.commit()
+    return (True)
 
 def modifyCategory(categoryid:int, newName:str) -> bool:
     """Change a category's name
@@ -288,15 +229,8 @@ def modifyCategory(categoryid:int, newName:str) -> bool:
     statement = 'UPDATE Category name = %s WHERE Category.id = %s;'
     data = (newName, categoryid)
     cursor.execute(statement, data)
-    
-    # Check if the data is inserted to the Cards table
-    statement = 'SELECT * FROM Category WHERE Category.id = %s;'
-    cursor.execute(statement, (categoryid,))
-    result = cursor.fetchone()
-    if result[1] != newName:
-        return (False)
-    else:
-        return (True)
+    conn.commit()
+    return (True)
 
 def deleteSets(setid:int) -> bool:
     """Delete a set and all cards belonging to it
@@ -310,15 +244,8 @@ def deleteSets(setid:int) -> bool:
     # SQL Query
     statement = 'DELETE FROM Sets WHERE id = %d;'
     cursor.execute(statement, (setid,))
-    
-    # Check if the data is still in the Cards table
-    statement = 'SELECT * FROM Sets WHERE Sets.id= %s;'
-    cursor.execute(statement, (cardid,))
-    result = cursor.fetchall()
-    if len(result) != 0:
-        return (False)
-    else:
-        return (True)
+    conn.commit()
+    return (True)
     
 def signOut() -> bool:
     """Sign out the user
@@ -327,9 +254,7 @@ def signOut() -> bool:
     """
     # Set session values and return
 
-    session.pop('logged_in')
-    
-    if session['userid']:
-        return(False)
-    else:
-        return (True)
+    if session.get('userid'):
+        session.pop('userid')
+        return(True)
+    return(False)
