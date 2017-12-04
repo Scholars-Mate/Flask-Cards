@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <title>Flask Card</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <meta charset="utf-8">
 </head>
 
 <body>
@@ -31,14 +32,14 @@
   <div class="jumbotron">
     <h1 class="display-4 text-center">Flask Card Login</h1>
     <div class="container">
-      <form>
+      <form action="/login" method="post">
         <div class="form-group">
           <label for="userName">User Name</label>
-          <input type="text" class="form-control" placeholder="username">
+          <input type="text" class="form-control" placeholder="username" name=username>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" class="form-control" placeholder="Password">
+          <input type="password" class="form-control" placeholder="Password" name=password>
         </div>
         <div class="btn btn-default btn-lg">
           <button type="submit" class="btn btn-primary">Log in</button>
@@ -47,6 +48,11 @@
           <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#signinModal">Sign up</button>
         </div>
       </form>
+      {% if login_fail %}
+      <div class="alert alert-danger" role="alert">
+        Wrong Username or Password!
+      </div>
+      {% endif %}
       <div class="modal fade" id="signinModal" role="dialog">
         <div class="modal-dialog">
           <!-- Modal content-->
@@ -56,22 +62,22 @@
               <h4 class="modal-title">Sign In to Flask Card</h4>
             </div>
             <div class="modal-body">
-              <form>
+              <form action="/sign-in" method="post">
                 <div class="form-group">
                   <label for="userName">User Name</label>
-                  <input type="text" class="form-control" placeholder="username">
+                  <input type="text" class="form-control" placeholder="username" name=newUsername>
                 </div>
                 <div class="form-group">
                   <label for="fisrtName">First Name</label>
-                  <input type="text" class="form-control" placeholder="firstname">
+                  <input type="text" class="form-control" placeholder="firstname" name=newFirstname>
                 </div>
                 <div class="form-group">
                   <label for="lastName">Last Name</label>
-                  <input type="text" class="form-control" placeholder="lastname">
+                  <input type="text" class="form-control" placeholder="lastname" name=newLastname>
                 </div>
                 <div class="form-group">
                   <label for="password">Password</label>
-                  <input type="password" class="form-control" id="password" placeholder="Password">
+                  <input type="password" class="form-control" id="password" placeholder="Password" name=newPassword>
                 </div>
                 <div class="form-group">
                   <label for="passwordConfirmed">Confirm Password</label>
