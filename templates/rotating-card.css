@@ -26,6 +26,13 @@ body {
     transform: rotateY( 180deg );
 }
 
+.form{
+        margin-left: auto;
+    margin-right: auto;
+    table-layout: fixed;
+    border-collapse: collapse;
+    z-index: -1; position:relative
+}
 
 .card-container.static:hover .card,
 .card-container.static.hover .card {
