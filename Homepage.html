@@ -5,12 +5,7 @@
   <meta charset="utf-8">
   <title>Flask Card</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-  <style>
-      .card{
-          margin:10px;
-          max-height:50%;
-      }
-    </style>
+
 </head>
 
 <body>
@@ -50,9 +45,28 @@
 
 
         <div class="jumbotron">
-          <button onclick="appendText()"><image src="add.SVG"height="40"></button>
+          <button onclick="appendText()"><image src="add.SVG"height:100%></button>
           <input type="text" id="inc" value="0"></input>
         </div>
+
+
+
+
+            <div class="jumbotron">
+
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <button onclick="addcategory()">Add category
+              <input type="text" id="addcategory" value={{request.form.category}}></input></button>
+
+              </button>
+              <div class="dropdown-menu" id="category" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" id="addedcategory"href="#" >{{request.form.category1}}</a>
+                <a class="dropdown-item" id="addedcategory"href="#">{{request.form.category2}}</a>
+              </div>
+            </div>
+
+           </div>
 
 
 
@@ -62,40 +76,32 @@
         <script>
           var i = 0;
 
+          function addcategory(){
+            var category= '<a class="dropdown-item" id="addedcategory"href="#" >{{request.form.category}}</a>'
+            $(document.getElementById('category')).append(category)
+
+          }
+
           function appendText() {
 
             document.getElementById('inc').value = ++i;
             var k = document.getElementById('inc').value / 2;
             var q = document.getElementById('inc').value % 2;
-            var card =
+            var card ='<div class="jumbotron">'+
               '<div class="card">' +
               '<h4 class="card-header">Flaskcard</h4>' +
               '<div class="card text-center" >' +
               '<div class="card-body">' +
+              '<h4 class="card-title">{{title}}</h4>' +
 
-                    '<h4 class="card-title">Flaskcard</h4>' +
-                      '<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>' +
+              '<p class="card-text">{{category}}</p>' +
 
-
-              '<ul id="navigation">'+
-              '{% for item in navigation %}'+
-                  '<li><a href="{{ item.href }}">{{ item.caption }}</a></li>'+
-              '{% endfor %}'+
-              '</ul>'+
-
-              '<h1>Flaskcard</h1>'+
-              '{{ category }}'+
-
-              '{# description #}'+
-              '<form>' +
+              '<form action="/Homepage" method="post">' +
               '<div class="btn btn-default btn-lg">' +
-              '<button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#viewModal">Purview</button>' +
-
+              '<button type="button" class="btn btn-primary btn-sm">purview</button>' +
               '<button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editModal">edit</button>' +
               '</div>' +
               '</form>' +
-              '<div class="modal fade" id="viewModal" role="dialog">' +
-              '</div>'+
               '<div class="modal fade" id="editModal" role="dialog">' +
               '<div class="modal-dialog">' +
               <!-- Modal content-->
@@ -105,15 +111,21 @@
               '<h4 class="modal-title">Editing Flask Card</h4>' +
               '</div>' +
               '<div class="modal-body">' +
-              '<form>' +
+              '<form action="/Homepage" method="post" >'+
               '<div class="form-group">' +
-              '<label for="category">category</label>' +
-              '<input type="text" class="form-control" placeholder="category">' +
+              '<label for="title">title</label>' +
+              '<input type="text" class="form-control" placeholder="description" value="{{request.form.title}}">' +
               '</div>' +
               '<div class="form-group">' +
-              '<label for="description">description</label>' +
-              '<input type="text" class="form-control" placeholder="description">' +
+              '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
+              'category'+
+              '</button>'+
+              '<div class="dropdown-menu" id="category" aria-labelledby="dropdownMenuButton">'+
+              '<a class="dropdown-item" href="#">{{request from category1}}</a>'+
+              '<a class="dropdown-item" href="#">{{request from category2}}</a>'+
+              '</div>'+
               '</div>' +
+
               '</form>' +
               '</div>' +
               '<div class="modal-footer">' +
