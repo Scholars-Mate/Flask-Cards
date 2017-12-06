@@ -1,22 +1,19 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, session, request
 app = Flask(__name__)
 
 @app.route("/")
-def login_or_redirect():
-    pass
+def root():
+    if session.get('userid'):
+        return render_template('Homepage.html')
+    else:
+        session['userid'] = 'foo'
+        return render_template('login.html')
 
-@app.route("/sets-home")
-def sets_home():
-    pass
+@app.route("/login", methods = ['GET', 'POST'])
+def show_login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    elif request.method == 'POST':
+        return request.form['username']
 
-@app.route("/settings")
-def show_settings():
-    pass
-
-@app.route("/set/<int:setid>")
-def show_set(setid):
-    pass
-
-@app.route("/set/<int:setid>/edit")
-def edit_set(setid):
-    pass
+app.secret_key ='aaa'
