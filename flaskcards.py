@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, request
+from flask import Flask, render_template, session, request, redirect, url_for
 app = Flask(__name__)
 
 @app.route("/")
@@ -6,8 +6,7 @@ def root():
     if session.get('userid'):
         return render_template('Homepage.html')
     else:
-        session['userid'] = 'foo'
-        return render_template('login.html')
+        return redirect(url_for('show_login'))
 
 @app.route("/login", methods = ['GET', 'POST'])
 def show_login():
