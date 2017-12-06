@@ -5,16 +5,14 @@
   <meta charset="utf-8">
   <title>Flask Card</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-
 </head>
 
 <body>
   <nav class="navbar fixed-top navbar-toggleable-md navbar-inverse bg-primary">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-      </button>
+    </button>
     <a class="navbar-brand" href="#">Flask Card</a>
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
@@ -36,66 +34,45 @@
     <br>
     <small>Set Preview </small>
   </div>
-
-
   <div class="row" id="outer">
     <div class="container">
       <div class="row">
-
-
-
         <div class="jumbotron">
           <button onclick="appendText()"><image src="add.SVG"height:100%></button>
           <input type="text" id="inc" value="0"></input>
         </div>
-
-
-
-
-            <div class="jumbotron">
-
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="jumbotron">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <button onclick="addcategory()">Add category
               <input type="text" id="addcategory" value={{request.form.category}}></input></button>
+            </button>
+            <div class="dropdown-menu" id="addcategory1" aria-labelledby="dropdownMenuButton">
 
-              </button>
-              <div class="dropdown-menu" id="category" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" id="addedcategory"href="#" >{{request.form.category1}}</a>
-                <a class="dropdown-item" id="addedcategory"href="#">{{request.form.category2}}</a>
-              </div>
             </div>
-
-           </div>
-
-
-
-
-
+          </div>
+        </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script>
           var i = 0;
 
-          function addcategory(){
-            var category= '<a class="dropdown-item" id="addedcategory"href="#" >{{request.form.category}}</a>'
-            $(document.getElementById('category')).append(category)
-
+          function addcategory() {
+            var category = '<a class="dropdown-item" id="addedcategory"href="#" >{{request.form.category}}</a>'
+            $(document.getElementById('addcategory1')).append(category)
+            $(document.getElementById('addcategory2')).append(category)
           }
 
           function appendText() {
-
             document.getElementById('inc').value = ++i;
             var k = document.getElementById('inc').value / 2;
             var q = document.getElementById('inc').value % 2;
-            var card ='<div class="jumbotron">'+
+            var card = '<div class="jumbotron">' +
               '<div class="card">' +
               '<h4 class="card-header">Flaskcard</h4>' +
               '<div class="card text-center" >' +
               '<div class="card-body">' +
               '<h4 class="card-title">{{title}}</h4>' +
-
               '<p class="card-text">{{category}}</p>' +
-
               '<form action="/Homepage" method="post">' +
               '<div class="btn btn-default btn-lg">' +
               '<button type="button" class="btn btn-primary btn-sm">purview</button>' +
@@ -111,21 +88,18 @@
               '<h4 class="modal-title">Editing Flask Card</h4>' +
               '</div>' +
               '<div class="modal-body">' +
-              '<form action="/Homepage" method="post" >'+
+              '<form action="/Homepage" method="post" >' +
               '<div class="form-group">' +
               '<label for="title">title</label>' +
               '<input type="text" class="form-control" placeholder="description" value="{{request.form.title}}">' +
               '</div>' +
               '<div class="form-group">' +
-              '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
-              'category'+
-              '</button>'+
-              '<div class="dropdown-menu" id="category" aria-labelledby="dropdownMenuButton">'+
-              '<a class="dropdown-item" href="#">{{request from category1}}</a>'+
-              '<a class="dropdown-item" href="#">{{request from category2}}</a>'+
-              '</div>'+
+              '<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+              'category' +
+              '</button>' +
+              '<div class="dropdown-menu" id="addcategory2" aria-labelledby="dropdownMenuButton">' +
               '</div>' +
-
+              '</div>' +
               '</form>' +
               '</div>' +
               '<div class="modal-footer">' +
@@ -133,10 +107,8 @@
               '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
               '</div>' +
               '</div>' +
-
               '</div>' +
               '</div>' +
-
               '</div>' +
               '</div>' +
               '</div>'
