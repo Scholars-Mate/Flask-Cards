@@ -1,7 +1,38 @@
 from flask import session
 from flask import Flask
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from dbconnection import getConnection
+
+def addUser(username: str, password: str, confirmPassword: str, fullname: str) -> bool:
+    """Sign up as a new user
+    
+    Insert a new user's information into the Users table
+    Password needs to be hashed first
+    It'll insert username, fullname, passowrd
+    """
+    #
+    
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+
+    # SQL Query
+    statement = 'INSERT INTO Users (username, fullname, password) VALUES(%s, %s, %s);'
+    hashedPassword = generate_password_hash(password)
+    data = (username, fullname, hashedPassword)
+    cursor.extcute(statement, data)
+
+    return (True)
+
+def checkPassword(password: str, confirmPassword: str) -> bool:
+    """Compare the "password" field and the "confirm password" field
+    
+    If they're the same, return true, else return false
+    """
+    if password == confirmPassword:
+        return (True)
+    else
+        return (False)
 
 def logIn(username: str, password: str) -> bool:
     """Attempt to log a user in
@@ -15,7 +46,7 @@ def logIn(username: str, password: str) -> bool:
     cursor = conn.cursor(prepared=True)
 
     # SQL Query
-    statement = 'SELECT * FROM Users WHERE username = %s'
+    statement = 'SELECT * FROM Users WHERE username = %s;'
     cursor.execute(statement, (username,))
 
     # result is an array of arrays with each subarray representing a row
