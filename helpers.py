@@ -3,14 +3,13 @@ from flask import Flask
 from werkzeug.security import check_password_hash, generate_password_hash
 from dbconnection import getConnection
 
-def addUser(username: str, password: str, confirmPassword: str, fullname: str) -> bool:
+def addUser(username: str, password: str, fullname: str) -> bool:
     """Sign up as a new user
     
     Insert a new user's information into the Users table
     Password needs to be hashed first
     It'll insert username, fullname, passowrd
     """
-    #
     
     # Get a connection to the database and a cursor to use
     conn = getConnection()
