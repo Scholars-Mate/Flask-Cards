@@ -53,6 +53,11 @@
         Wrong Username or Password!
       </div>
       {% endif %}
+      {% if usernameTaken %}
+      <div class="alert alert-danger" role="alert">
+        Username already taken!
+      </div>
+      {% endif %}
       <div class="modal fade" id="signupModal" role="dialog">
         <div class="modal-dialog">
           <!-- Modal content-->
