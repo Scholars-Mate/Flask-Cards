@@ -303,11 +303,8 @@ def signOut() -> bool:
 
     If the user was successfully signed out, return true, else return false
     """
-    # Set session values and return
-
-    session.pop('logged_in')
-    
-    if session['userid']:
-        return(False)
-    else:
-        return (True)
+    # Clear userid session variable
+    if session.get('userid') is not None:
+        session.pop('userid')
+        return(True)
+    return(False)

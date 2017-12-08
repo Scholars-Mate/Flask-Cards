@@ -54,4 +54,9 @@ def add_card():
     helpers.addCard(request.form['front'], request.form['back'], request.form['setid'])
     return redirect(url_for('show_set', setid=request.form['setid']))
 
+@app.route("/logout")
+def log_out():
+    helpers.signOut()
+    return redirect(url_for('homepage_or_redirect'))
+
 app.secret_key = ''
