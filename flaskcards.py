@@ -26,4 +26,11 @@ def show_set(setid):
     cards = helpers.getCards(setid)
     return render_template('cardPreview.html', cards=cards, setid=setid)
 
+@app.route("/signup", methods=['POST'])
+def add_user():
+    if helpers.addUser(request.form['username'], request.form['password'], request.form['fullname']):
+        return redirect(url_for('login'))
+    else:
+        return render_template('login.html', usernameTaken=True)
+
 app.secret_key = ''
