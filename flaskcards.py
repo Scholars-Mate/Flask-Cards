@@ -63,4 +63,9 @@ def log_out():
 def show_about():
     return render_template('about.html')
 
+@app.route("/deleteset", methods=['POST'])
+def delete_set():
+    helpers.deleteSets(request.form['setid'])
+    return redirect(url_for('homepage_or_redirect'))
+
 app.secret_key = ''

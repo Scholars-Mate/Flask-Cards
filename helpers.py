@@ -285,18 +285,17 @@ def deleteSets(setid:int) -> bool:
     conn = getConnection()
     cursor = conn.cursor(prepared=True)
     
-    # SQL Query
-    statement = 'DELETE FROM Sets WHERE id = %d;'
+    # Delete cards in set
+    statement = 'DELETE FROM Cards WHERE setid = %s'
     cursor.execute(statement, (setid,))
     
-    # Check if the data is still in the Cards table
-    statement = 'SELECT * FROM Sets WHERE Sets.id= %d;'
-    cursor.execute(statement, (cardid,))
-    result = cursor.fetchall()
-    if len(result) != 0:
-        return (False)
-    else:
-        return (True)
+    # Delete set
+    statement = 'DELETE FROM Sets WHERE id = %s'
+    cursor.execute(statement, (setid,))
+
+    conn.commit()
+
+    return(True)
     
 def signOut() -> bool:
     """Sign out the user
