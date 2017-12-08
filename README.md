@@ -98,7 +98,7 @@ Same as Update but if the user click delete instead, the program will delete the
 
 
 ## Link to Video Demostration 
-[!demo](demo.png)](https://www.youtube.com/watch?v=E_DU3xXYrSY&feature=youtu.be "Click to watch")
+[![demo](demo.png)](https://www.youtube.com/watch?v=E_DU3xXYrSY&feature=youtu.be "Click to watch")
 
 
 
