@@ -40,4 +40,11 @@ def add_set():
     helpers.addSet(request.form['name'], request.form['category'])
     return redirect(url_for('homepage_or_redirect'))
 
+@app.route("/editset", methods=['POST'])
+def edit_set():
+    if session.get('userid') == None:
+        abort(403)
+    helpers.editSet(request.form['setid'], request.form['name'], request.form['category'])
+    return redirect(url_for('homepage_or_redirect'))
+
 app.secret_key = ''
