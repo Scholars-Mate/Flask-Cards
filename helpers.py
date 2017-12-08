@@ -123,20 +123,11 @@ def editCard(cardid:int, cardFront:str, cardBack:str) -> bool:
     cursor = conn.cursor(prepared=True)
     
     # SQL Query
-    statement = 'UPDATE Cards SET front = %s, back = %s WHERE Cards.id = %d;'
-    data = (cardFront, cardBack, cardid)
-    cursor.execute(statement, data)
-    
-    # Check if the data is inserted to the Cards table
-    statement = 'SELECT * FROM Cards WHERE Cards.id = %d;'
-    cursor.execute(statement, (cardid,))
-    result = cursor.fetchall()
-    if result[2] != cardFront || result[3] != cardBack:
-        return (False)
-    else:
-        return (True)
-    
-    #not sure if it's correct, need to test with database
+    statement = 'UPDATE Cards SET front = %s, back = %s WHERE Cards.id = %s'
+    cursor.execute(statement, (cardFront, cardBack, cardid))
+    conn.commit()
+
+    return(True)
 
 def deleteCard(cardid:id) -> bool:
     """Delete a card
