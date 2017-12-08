@@ -159,33 +159,9 @@ def deleteCard(cardid:id) -> bool:
     # SQL Query
     statement = 'DELETE FROM Cards WHERE id = %s'
     cursor.execute(statement, (cardid,))
+    conn.commit()
     
     return(True)
-
-def indicateCard(cardid:int, indicator:bool = False) -> bool:
-    """Set the indicator to True or False
-
-    If successfully changed it's value, return true, else return false
-    """
-    # Get a connection to the database and a cursor to use
-    conn = getConnection()
-    cursor = conn.cursor(prepared=True)
-    
-    # SQL Query
-    statement = 'UPDATE Cards SET indicator = %(indicator)s WHERE Cards.id = %d;'
-    data = (indicator, cardid)
-    cursor.execute(statement, data)
-    
-    # Check if the data is inserted to the Cards table
-    statement = 'SELECT * FROM Cards WHERE Cards.id = %d;'
-    cursor.execute(statement, (cardid,))
-    result = cursor.fetchall()
-    if result[4] != indicator):
-        return (False)
-    else:
-        return (True)
-    
-    #not sure if it's correct, need to test with database
 
 def addCategory(categoryName:str) -> bool:
     """Add a new category
@@ -252,29 +228,6 @@ def editSet(setid:int, newName:str, category:str) -> bool:
     cursor.execute(s, (newName, categoryid, setid))
 
     return(True)
-
-def modifyCategory(categoryid:int, newName:str) -> bool:
-    """Change a category's name
-
-    If successful, return true, else return false
-    """
-    # Get a connection to the database and a cursor to use
-    conn = getConnection()
-    cursor = conn.cursor(prepared=True)
-    
-    # SQL Query
-    statement = 'UPDATE Category name = %s WHERE Category.id = %d;'
-    data = (newName, categoryid)
-    cursor.execute(statement, data)
-    
-    # Check if the data is inserted to the Cards table
-    statement = 'SELECT * FROM Category WHERE Category.id = %d;'
-    cursor.execute(statement, (categoryid,))
-    result = cursor.fetchone()
-    if result[1] != newName:
-        return (False)
-    else:
-        return (True)
 
 def deleteSets(setid:int) -> bool:
     """Delete a set and all cards belonging to it
