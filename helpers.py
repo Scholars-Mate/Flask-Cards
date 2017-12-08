@@ -19,7 +19,7 @@ def addUser(username: str, password: str, fullname: str) -> bool:
     statement = 'INSERT INTO Users (username, fullname, password) VALUES(%s, %s, %s);'
     hashedPassword = generate_password_hash(password)
     data = (username, fullname, hashedPassword)
-    cursor.extcute(statement, data)
+    cursor.execute(statement, data)
 
     return (True)
 
@@ -30,7 +30,7 @@ def checkPassword(password: str, confirmPassword: str) -> bool:
     """
     if password == confirmPassword:
         return (True)
-    else
+    else:
         return (False)
 
 def logIn(username: str, password: str) -> bool:
