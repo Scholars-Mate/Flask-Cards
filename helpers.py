@@ -75,12 +75,25 @@ def getCards(setid:int):
     # Get a connection to the database and a cursor to use
     conn = getConnection()
     cursor = conn.cursor(prepared=True)
-    
+
+    # SQL Query
+    statement = ('SELECT id, front, back, indicator '
+                 'FROM Cards '
+                 'WHERE Cards.setid = %s'
+                )
+    cursor.execute(statement, (setid,))
+
     # result is an array of arrays with each subarray representing a row
     # In this case, we may get 1 or more or 0 results
-    result = cursor.fetchall()
+    rows = cursor.fetchall()
 
-    #not quite sure if we need to fix it or not
+    # Pack the results into dictionaries
+    result = []
+    for row in rows:
+        d = {'id': row[0], 'front': row[1].decode(), 'back': row[2].decode(), 'indicator': row[3]}
+        result.append(d)
+
+    return result
 
 def addCard(cardFront:str, cardBack:str, setid:int) -> bool:
     """Add a new card to the given set
