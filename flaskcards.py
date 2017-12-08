@@ -59,4 +59,8 @@ def log_out():
     helpers.signOut()
     return redirect(url_for('homepage_or_redirect'))
 
+@app.route("/about")
+def show_about():
+    return render_template('about.html')
+
 app.secret_key = ''
