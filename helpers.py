@@ -1,5 +1,5 @@
 from flask import session
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from dbconnection import getConnection
 
 def logIn(username: str, password: str) -> bool:
@@ -30,6 +30,24 @@ def logIn(username: str, password: str) -> bool:
 
     # Set session values and return
     session['userid'] = result[0]
+    return(True)
+
+def addUser(username:str, password:str, fullname:str):
+    # Hash the password
+    hashedpw = generate_password_hash(password)
+
+    # Get a connection to the database and a cursor to use
+    conn = getConnection()
+    cursor = conn.cursor(prepared=True)
+
+    # SQL Query
+    statement = 'INSERT INTO Users (fullname, username, password) VALUE (%s,%s,%s)'
+    try:
+        cursor.execute(statement, (fullname, username, hashedpw))
+        conn.commit()
+    except:
+        return(False)
+
     return(True)
 
 def getSets(userid:int):
