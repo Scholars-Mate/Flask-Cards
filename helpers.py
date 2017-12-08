@@ -107,19 +107,11 @@ def addCard(cardFront:str, cardBack:str, setid:int) -> bool:
     cursor = conn.cursor(prepared=True)
     
     # SQL Query
-    statement = 'INSERT INTO Cards(front, back, indicator, createdate) VALUES(%s, %s, %s, TO_DATE('2017/11/20', YYYY/MM/DD));'
-    data = (cardFront, cardBack, false)
-    cursor.execute(statement, data)
-    
-    # Check if the data is inserted to the Cards table
-    statement = 'SELECT * FROM Cards WHERE front = %s AND back = %s;'
-    data = (cardFront, cardBack)
-    cursor.execute(statement, data)
-    result = cursor.fetchall()
-    if len(result) < 1:
-        return (False)
-    else:
-        return (True)
+    statement = 'INSERT INTO Cards (setid, front, back) VALUES (%s, %s, %s)'
+    cursor.execute(statement, (setid, cardFront, cardBack))
+    conn.commit()
+
+    return(True)
     
 def editCard(cardid:int, cardFront:str, cardBack:str) -> bool:
     """Modify a card
