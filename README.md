@@ -98,7 +98,7 @@ Same as Update but if the user click delete instead, the program will delete the
 
 
 ## Link to Video Demostration 
-[![Little red ridning hood](http://i.imgur.com/7YTMFQp.png)](https://www.youtube.com/watch?v=E_DU3xXYrSY&feature=youtu.be "Little red riding hood - Click to Watch!")
+[!demo](demo.png)](https://www.youtube.com/watch?v=E_DU3xXYrSY&feature=youtu.be "Click to watch")
 
 
 
