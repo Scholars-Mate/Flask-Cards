@@ -2,8 +2,8 @@
 <html>
 <head>
    
-    <link href='rotating-card.css' rel='stylesheet' />
-    <link href='bootstrap.css' rel='stylesheet' />
+    <link href='css/rotating-card.css' rel='stylesheet' />
+    <link href='css/bootstrap.css' rel='stylesheet' />
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://google-code prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 
@@ -20,7 +20,6 @@
             padding: 10px; 
                
         }
-
     </style>
     
 </head>
@@ -29,26 +28,26 @@
 <body>
     
 <!-- start nav bar -->
-    <nav class="navbar fixed-top navbar-toggleable-md navbar-inverse bg-primary">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    <a class="navbar-brand" href="#">Flask Card</a>
+ <nav class="navbar fixed-top navbar-toggleable-md navbar-inverse bg-primary">
+   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+       <span class="navbar-toggler-icon"></span>
+     </button>
+   <a class="navbar-brand" href="#">Flask Card</a>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Settings</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Login</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+     <ul class="navbar-nav mr-auto">
+       <li class="nav-item">
+         <a class="nav-link" href="#">Home</a>
+       </li>
+       <li class="nav-item active">
+         <a class="nav-link" href="#">About <span class="sr-only">(current)</span></a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link" href="#">Login</a>
+       </li>
+     </ul>
+   </div>
+ </nav>
 <!--end nav bar-->
     
 <!-- Title --> 
@@ -57,40 +56,105 @@
             FlaskCards 
             <br>
             <small>card preview</small>
+            <small>{{ newName }}</small>
         </h1>
     </div>
 <!-- End Title-->
     
  <!--button to add-->   
-    <div>
-        <button onclick="appendText()">add card</button>
-        <input type="number" id="inc" value="0">
-    </div>
-    <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Dropdown
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-    <button class="dropdown-item" type="button">Action</button>
-    <button class="dropdown-item" type="button">Another action</button>
-    <button class="dropdown-item" type="button">Something else here</button>
-  </div>
-</div>
-    <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Dropdown
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-    <button class="dropdown-item" type="button">Action</button>
-    <button class="dropdown-item" type="button">Another action</button>
-    <button class="dropdown-item" type="button">Something else here</button>
-  </div>
-</div>
- <!-- must change "add" to the same icon April used-->    
-       
+
+
+     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCardModal">Add Card</button>                            
+        <div class="modal fade" id="addCardModal" role="dialog" tabindex="-1" >  
+                    <div class="modal-dialog" role="document">   
+                                    <!-- Modal content-->
+                         <div class="modal-content">   
+                             <div class="modal-header">   
+                             <h5 class="modal-title" id="modalLabel">Add Card</h5>  
+                                 <button type="button" class="close" data-dismiss="modal">&times;</button>   
+
+                             </div>   
+                             <div class="modal-body">   
+                             <form action="/cardPreview" method="POST">   
+                                     <div class="form-group">   
+                                         <label for="cardTitle">cardTitle</label>   
+                                         <input type="text" class="form-control" id="cardTitle" placeholder="cardTitle" >   
+                                     </div>   
+                                     <div class="form-group">   
+                                         <label for="cardDefinition">cardDefinition</label>   
+                                         <input type="text" class="form-control" placeholder="carddefinition">   
+                                     </div>   
+
+                                 </form>   
+                             </div>   
+                             <div class="modal-footer">   
+                                 <button type="submit" class="btn btn-primary">add</button>   
+                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>   
+                             </div>   
+                         </div> 
+                    </div>
+                </div><!-- end model ---->
+    
+   
+    {% for card in cards %}   
       <div class="row" id="flashCard">
-    <div class="container">
-      <div class="row">
+         <div class="card-container manual-flip">   
+             <div class="card">  
+    
+                 <div class="front">  
+                     <div class="cover">  
+                         <img src="images/rotating_card_thumb2.png"/>  
+                     </div>  
+                     <div class="content">  
+                         <div class="main">  
+                             <h2 class="text-center" id=cardTitle>{{ cardTitle }}</h2>  
+                             <p class="text-center">front</p>  
+                             
+                         </div>  
+                             <div class="footer">  
+                                 <button class="btn btn-simple" onclick="rotateCard(this)">  
+                                     <i class="fa fa-mail-forward"></i> Manual Rotation  
+                                 </button>  
+                             </div>  
+                     </div>  
+                 </div>   <!--//end front panel-->
+    
+                 <div class="back">  
+                     <div class="header">  
+                         <div class="content">  
+                             <div class="main">  
+                                 <h3 class="text-center">Definition</h3>  
+                                 <p class="text-center" id=cardDefinition>{{ cardDefinition }}</p>  
+                                     <div class="stats-container">  
+                                         <div class="stats">  
+                                  
+                                         </div>  
+                                       
+                                     </div>  
+    
+       <!--start of edit button-->
+    <!--features include edit front panel and save or update back -->
+         
+         
+    
+    
+                              </div>  
+   
+                         </div>  
+       <div class="footer">  
+                                 <button class="btn btn-simple" onclick="rotateCard(this)">  
+                                     <i class="fa fa-mail-forward"></i> Manual Rotation  
+                                 </button>  
+                             </div> 
+                     </div>
+                     </div>  <!--//end back panel-->
+    
+             </div>  
+                        
+     </div>  
+           
+ </div>  
+    {% endfor %}
 
       
 <!-- start of flashCard addition with rotating elements --> 
@@ -100,107 +164,6 @@ function appendText() {
 document.getElementById('inc').value = ++i;
 var k = document.getElementById('inc').value / 2;
 var q = document.getElementById('inc').value % 2;
-var card =
-        '<div class="card-container manual-flip">' +
-            '<div class="card">'+
-    
-                '<div class="front">'+
-                    '<div class="cover">'+
-                        '<img src="images/rotating_card_thumb2.png"/>'+
-                    '</div>'+
-                    '<div class="content">'+
-                        '<div class="main">'+
-                            '<h2 class="name">New Set Name </h2>'+
-                            '<p class="profession">Set</p>'+
-                            '<p class="text-center">New Title</p>'+
-                        '</div>'+
-'                            <div class="footer">'+
-                               ' <button class="btn btn-simple" onclick="rotateCard(this)">'+
-                                    '<i class="fa fa-mail-forward"></i> Manual Rotation'+
-                               ' </button>'+
-                           ' </div>'+
-                    '</div>'+
-                '</div>'+ //end front panel
-    
-                '<div class="back">'+
-                    '<div class="header">'+
-                        '<div class="content">'+
-                            '<div class="main">'+
-                                '<h4 class="text-center">Definition</h4>'+
-                                '<p class="text-center">New Card Definition</p>'+
-                                    '<div class="stats-container">'+
-                                        '<div class="stats">'+
-                                            '<h4 id="counter1">0</h4>'+
-                                            '<p>'+
-                                            'Correct'+
-                                            '</p>'+
-                                            '<button type="button" class="btn btn-primary" onclick="correctFunction()">Count!</button>'+
-                                        '</div>'+
-                                        '<div class="stats">'+
-                                            '<h4 id="counter2">0</h4>'+
-                                            '<p>'+
-                                            'Wrong'+
-                                            '</p>'+
-                                            '<button type="button" class="btn btn-primary" onclick="incorrectFunction()">Count!</button>'+
-                                        '</div>'+
-                                        '<div class="stats">'+
-                                            '<h4 id="counter3">0</h4>'+
-                                            '<p>'+
-                                            'Total'+
-                                            '</p>'+
-                                            
-                                        '</div>'+
-                                    '</div>'+
-    
-       //start of edit button 
-    //features include edit front panel and save or update back 
-         
-    '<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editCardModal">Edit Card</button> '+                         
-                            
-                                   
-                                    '<div class="modal fade" id="editCardModal" role="dialog" tabindex="-1" >'+
-                                        '<div class="modal-dialog" role="document">' +
-                                    //    <!-- Modal content-->
-                                            '<div class="modal-content">' +
-                                                '<div class="modal-header">' +
-                                                '<h5 class="modal-title" id="modalLabel">Edit Card</h5>'+
-                                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>' +
-                                                 
-                                                '</div>' +
-                                                '<div class="modal-body">' +
-                                                '<form action="/cardPreview" method="post">' +
-                                                        '<div class="form-group">' +
-                                                            '<label for="front">cardTitle</label>' +
-                                                            '<input type="text" class="form-control" placeholder="cardTitle" name=newCardTitle>' +
-                                                        '</div>' +
-                                                        '<div class="form-group">' +
-                                                            '<label for="back">Definition</label>' +
-                                                            '<input type="text" class="form-control" placeholder="definition">' +
-                                                        '</div>' +
-                                                       
-                                                    '</form>' +
-                                                '</div>' +
-                                                '<div class="modal-footer">' +
-                                                    '<button type="submit" class="btn btn-primary">save</button>' +
-                                                    '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
-                                                '</div>' +
-                                            '</div>' +// end model 
-         
-    
-    
-                             '</div>'+
-   
-                        '</div>'+
-     ' <div class="footer">'+
-                               ' <button class="btn btn-simple" onclick="rotateCard(this)">'+
-                                    '<i class="fa fa-mail-forward"></i> Manual Rotation'+
-                               ' </button>'+
-                           ' </div>'+
-                    '</div>'+//end back panel
-    
-            '</div>'+
-    '</div> '+
-'</div> '
           
 $(document.getElementById('flashCard')).append(card);
 } </script>
@@ -239,17 +202,6 @@ $(document.getElementById('flashCard')).append(card);
     }   
 </script>
           
-    <script>
-    var add = (function () {
-        var countIt = 0;
-        return function () {return countIt += 1;}
-    })();
- 
-        function incorrectFunction(){ 
-         document.getElementById("counter2").innerHTML = add();
-    }
-          
-    </script>
 <!--end script-->
 
     </body>
