@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, redirect, url_for, request
+from flask import Flask, render_template, session, redirect, url_for, request, abort
 import helpers
 app = Flask(__name__)
 
@@ -32,5 +32,12 @@ def add_user():
         return redirect(url_for('login'))
     else:
         return render_template('login.html', usernameTaken=True)
+
+@app.route("/addset", methods=['POST'])
+def add_set():
+    if session.get('userid') == None:
+        abort(403)
+    helpers.addSet(request.form['name'], request.form['category'])
+    return redirect(url_for('homepage_or_redirect'))
 
 app.secret_key = ''

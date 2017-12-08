@@ -198,23 +198,15 @@ def addCategory(categoryName:str) -> bool:
     cursor = conn.cursor(prepared=True)
     
     # SQL Query
-    statement = 'INSERT INTO Category(userid, name) VALUES(%d, %s)'
-    data = (userid, categoryName)
+    statement = 'INSERT INTO Category(userid, name) VALUES(%s, %s)'
+    data = (session.get('userid'), categoryName)
     cursor.execute(statement, data)
+    conn.commit()
     
-    # Check if the data is inserted to the Cards table
-    statement = 'SELECT * FROM Category WHERE Category.name = %s;'
-    cursor.execute(statement, (categoryName,))
-    result = cursor.fetchall()
-    if len(result) < 1:
-        return (False)
-    else:
-        return (True)
-
-def addSet(setName:str, categoryid:int) -> bool:
+def addSet(setName:str, category:str) -> bool:
     """Add a new set
 
-    Create an empty set with the given name and categoryid, as well as the
+    Create an empty set with the given name and category, as well as the
     userid from the session
     If successful, return true, else return false
     """
@@ -222,19 +214,19 @@ def addSet(setName:str, categoryid:int) -> bool:
     conn = getConnection()
     cursor = conn.cursor(prepared=True)
     
-    # SQL Query
-    statement = 'INSERT INTO Set(name, categoryid, userid, createdate) VALUES(%s, %d, %d, TO_DATE('2017/11/20', YYYY/MM/DD));'
-    data = (setName, categoryid, userid)
-    cursor.execute(statement, data)
-    
-    # Check if the data is inserted to the Cards table
-    statement = 'SELECT * FROM Sets WHERE Sets.name = %s;'
-    cursor.execute(statement, (setName,))
-    result = cursor.fetchall()
-    if len(result) < 1:
-        return (False)
-    else:
-        return (True)
+    # Find if there is a category with the same name
+    s = 'SELECT id FROM Category WHERE userid = %s AND name = %s'
+    cursor.execute(s, (session.get('userid'), category))
+    results = cursor.fetchall()
+    if len(results) < 1:
+        addCategory(category)
+        cursor.execute(s, (session.get('userid'), category))
+        results = cursor.fetchall()
+    categoryid = results[0][0]
+
+    s = 'INSERT INTO Sets (name, categoryid, userid) VALUES (%s,%s,%s)'
+    cursor.execute(s, (setName, categoryid, session.get('userid')))
+    conn.commit()
 
 def modifySet(setid:int, newName:str) -> bool:
     """Change a set's name
