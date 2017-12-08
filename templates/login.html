@@ -45,7 +45,7 @@
           <button type="submit" class="btn btn-primary">Log in</button>
         </div>
         <div class="btn btn-default btn-lg">
-          <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#signinModal">Sign up</button>
+          <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#signupModal">Sign up</button>
         </div>
       </form>
       {% if login_fail %}
@@ -53,39 +53,39 @@
         Wrong Username or Password!
       </div>
       {% endif %}
-      <div class="modal fade" id="signinModal" role="dialog">
+      <div class="modal fade" id="signupModal" role="dialog">
         <div class="modal-dialog">
           <!-- Modal content-->
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Sign In to Flask Card</h4>
+              <h4 class="modal-title">Sign up for Flask Card</h4>
             </div>
             <div class="modal-body">
               <form action="/signup" method="post">
                 <div class="form-group">
                   <label for="userName">User Name</label>
-                  <input type="text" class="form-control" placeholder="username" name=newUsername>
+                  <input type="text" class="form-control" placeholder="username" name=username>
                 </div>
                 <div class="form-group">
                   <label for="fullName">Full Name</label>
-                  <input type="text" class="form-control" placeholder="fullname" name=newFullName>
+                  <input type="text" class="form-control" placeholder="fullname" name=fullname>
                 </div>
                 <div class="form-group">
                   <label for="password">Password</label>
-                  <input type="password" class="form-control" id="password" placeholder="Password" name=newPassword>
+                  <input type="password" class="form-control" id="password" placeholder="Password" name=password>
                 </div>
                 <div class="form-group">
                   <label for="passwordConfirmed">Confirm Password</label>
                   <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password" onkeyup='check();'>
                   <label><span id='message'></span></label>
                 </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary">Sign up</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
 
               </form>
-            </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">Sign up</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
           </div>
 
