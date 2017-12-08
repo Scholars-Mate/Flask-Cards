@@ -71,13 +71,13 @@
               <div class="card-body">
                 <h4 class="card-title">{{set['name']}}</h4>
                 <p class="card-text">{{set['category']}}</p>
-                <button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#editModal">edit</button>
+		<button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#editModal{{set['id']}}">edit</button>
                 <a class="btn-primary btn-lg" href="/set/{{set['id']}}" role="button">Go to Set</a>
               </div>
             </div>
           </div>
         </form>
-        <div class="modal fade" id="editModal" role="dialog">
+	<div class="modal fade" id="editModal{{set['id']}}" role="dialog">
           <div class="modal-dialog">
           <!-- Modal content-->
             <div class="modal-content">
