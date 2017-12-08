@@ -139,18 +139,11 @@ def deleteCard(cardid:id) -> bool:
     cursor = conn.cursor(prepared=True)
     
     # SQL Query
-    statement = 'DELETE FROM Cards WHERE id = %d;'
+    statement = 'DELETE FROM Cards WHERE id = %s'
     cursor.execute(statement, (cardid,))
     
-    # Check if the data is still in the Cards table
-    statement = 'SELECT * FROM Cards WHERE Cards.id= %s;'
-    cursor.execute(statement, (cardid,))
-    result = cursor.fetchall()
-    if len(result) != 0:
-        return (False)
-    else:
-        return (True)
-    
+    return(True)
+
 def indicateCard(cardid:int, indicator:bool = False) -> bool:
     """Set the indicator to True or False
 
