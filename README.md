@@ -98,6 +98,8 @@ Same as Update but if the user click delete instead, the program will delete the
 
 
 ## Link to Video Demostration 
-[FlaskCard Demo](https://www.youtube.com/watch?v=E_DU3xXYrSY)
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=E_DU3xXYrSY
+" target="_blank"><img src="http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg" 
+alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 
 
