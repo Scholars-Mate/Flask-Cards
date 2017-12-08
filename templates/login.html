@@ -62,7 +62,7 @@
               <h4 class="modal-title">Sign In to Flask Card</h4>
             </div>
             <div class="modal-body">
-              <form action="/signup" method="post">
+              <form action="/sign-up" method="post">
                 <div class="form-group">
                   <label for="userName">User Name</label>
                   <input type="text" class="form-control" placeholder="username" name=newUsername>
@@ -80,13 +80,14 @@
                   <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password" onkeyup='check();'>
                   <label><span id='message'></span></label>
                 </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary">Sign up</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                 </div>
 
               </form>
             </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">Sign up</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+            
           </div>
 
         </div>
