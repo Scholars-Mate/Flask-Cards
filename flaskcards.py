@@ -47,4 +47,11 @@ def edit_set():
     helpers.editSet(request.form['setid'], request.form['name'], request.form['category'])
     return redirect(url_for('homepage_or_redirect'))
 
+@app.route("/addcard", methods=['POST'])
+def add_card():
+    if session.get('userid') == None:
+        abort(403)
+    helpers.addCard(request.form['front'], request.form['back'], request.form['setid'])
+    return redirect(url_for('show_set', setid=request.form['setid']))
+
 app.secret_key = ''
