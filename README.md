@@ -47,8 +47,8 @@ The user is then redirected to the card preview page. In this page the user can 
 
 ## Entity Relationship Diagram
 
-![ERD]
-(https://imgur.com/UATLn2L.jpg)
+![Demo]
+(./docs/ERD.png)
 
 
 ## Explanation of CRUD
