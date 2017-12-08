@@ -30,12 +30,12 @@
       <br>
       <small>Add Sets!</small>
       <div class="addbutton">
-        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editModal">
+        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#addModal">
           <image src="/static/add.svg"height:100%>
         </button>
         <input type="hidden" id="inc" value="0"></input>
       </div>
-      <div class="modal fade" id="editModal" role="dialog">
+      <div class="modal fade" id="addModal" role="dialog">
         <div class="modal-dialog">
           <!-- Modal content-->
           <div class="modal-content">
@@ -44,18 +44,18 @@
               <h4 class="modal-title">Adding new Flask Card</h4>
             </div>
             <div class="modal-body">
-              <form action="/Homepage" method="post">
+              <form action="/addset" method="post">
                 <div class="form-group">
                   <label for="title">title</label>
-                  <input type="text" class="form-control" placeholder="description" value="{{request.form.title}}">
+                  <input type="text" name="name" class="form-control" placeholder="Title">
                   <label for="category">category</label>
-                  <input type="text" class="form-control" placeholder="description" value="{{request.form.title}}">
+                  <input type="text" name="category" class="form-control" placeholder="Category">
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary">Add</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
               </form>
-            </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">save</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
@@ -72,7 +72,7 @@
                 <h4 class="card-title">{{set['title']}}</h4>
                 <p class="card-text">{{set['category']}}</p>
                 <button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#editModal">edit</button>
-                <a class="btn-primary btn-lg" href="/card" role="button">Go to Card</a>
+                <a class="btn-primary btn-lg" href="/set/{{set['id']}}" role="button">Go to Set</a>
               </div>
             </div>
           </div>
@@ -86,18 +86,19 @@
                 <h4 class="modal-title">Editing Flask Card</h4>
               </div>
               <div class="modal-body">
-                <form action="/Homepage" method="post">
+                <form action="/editset" method="post">
                   <div class="form-group">
-                    <label for="title">title</label>
-                    <input type="text" class="form-control" placeholder="description" value="{{request.form.title}}">
-                    <label for="category">category</label>
-                    <input type="text" class="form-control" placeholder="description" value="{{request.form.title}}">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" placeholder="{{set['title']}}">
+                    <label for="category">Category</label>
+                    <input type="text" class="form-control" placeholder="{{set['category']}}">
+                    <input type="hidden" name="setid" value="{{set['id']}}">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                   </div>
                 </form>
-              </div>
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
             </div>
           </div>
