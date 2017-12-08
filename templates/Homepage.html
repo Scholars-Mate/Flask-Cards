@@ -89,9 +89,9 @@
                 <form action="/editset" method="post">
                   <div class="form-group">
                     <label for="title">Title</label>
-                    <input type="text" class="form-control" placeholder="{{set['name']}}">
+                    <input type="text" class="form-control" name="name" placeholder="{{set['name']}}">
                     <label for="category">Category</label>
-                    <input type="text" class="form-control" placeholder="{{set['category']}}">
+                    <input type="text" class="form-control" name="category" placeholder="{{set['category']}}">
                     <input type="hidden" name="setid" value="{{set['id']}}">
                   </div>
                   <div class="modal-footer">

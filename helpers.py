@@ -228,28 +228,30 @@ def addSet(setName:str, category:str) -> bool:
     cursor.execute(s, (setName, categoryid, session.get('userid')))
     conn.commit()
 
-def modifySet(setid:int, newName:str) -> bool:
-    """Change a set's name
+def editSet(setid:int, newName:str, category:str) -> bool:
+    """Change a set's name or category
 
     If successful, return true, else return false
     """
     # Get a connection to the database and a cursor to use
     conn = getConnection()
     cursor = conn.cursor(prepared=True)
-    
+
+    # Get the categoryid or create one
+    s = 'SELECT id FROM Category WHERE userid = %s AND name = %s'
+    cursor.execute(s, (session.get('userid'), category))
+    results = cursor.fetchall()
+    if len(results) < 1:
+        addCategory(category)
+        cursor.execute(s, (session.get('userid'), category))
+        results = cursor.fetchall()
+    categoryid = results[0][0]
+
     # SQL Query
-    statement = 'UPDATE Sets name = %s WHERE Sets.id = %d;'
-    data = (newName, setid)
-    cursor.execute(statement, data)
-    
-    # Check if the data is inserted to the Cards table
-    statement = 'SELECT * FROM Sets WHERE Sets.id = %d;'
-    cursor.execute(statement, (setid,))
-    result = cursor.fetchone()
-    if result[1] != newName:
-        return (False)
-    else:
-        return (True)
+    s = 'UPDATE Sets SET name = %s, categoryid = %s WHERE id = %s;'
+    cursor.execute(s, (newName, categoryid, setid))
+
+    return(True)
 
 def modifyCategory(categoryid:int, newName:str) -> bool:
     """Change a category's name
