@@ -1,50 +1,42 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <meta charset="utf-8">
-  <title>Flask Card</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-</head>
-
-<body>
-  <nav class="navbar fixed-top navbar-toggleable-md navbar-inverse bg-primary">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <head>
+    <meta charset="utf-8">
+    <title>Flask Card</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  </head>
+  <body>
+    <nav class="navbar fixed-top navbar-toggleable-md navbar-inverse bg-primary">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="#">Flask Card</a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">setting</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Login</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-
-
-  <div class="jumbotron">
-    <h1 class="title">
-    FlaskCards
-  </h1>
-    <br>
-    <small>Set Preview </small>
-
-	<div class="addbutton">
-	<button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editModal"><image src="add.SVG"height:100%></button>
-          <input type="hidden" id="inc" value="0"></input>
-		</div>
-
-		
-		  
-		 <div class="modal fade" id="editModal" role="dialog"> 
-		  <div class="modal-dialog">
+      </button>
+      <a class="navbar-brand" href="#">Flask Card</a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">setting</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Login</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="jumbotron">
+      <h1 class="title">FlaskCards</h1>
+      <br>
+      <small>Add Sets!</small>
+      <div class="addbutton">
+        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editModal">
+          <image src="/static/add.svg"height:100%>
+        </button>
+        <input type="hidden" id="inc" value="0"></input>
+      </div>
+      <div class="modal fade" id="editModal" role="dialog">
+        <div class="modal-dialog">
           <!-- Modal content-->
           <div class="modal-content">
             <div class="modal-header">
@@ -65,61 +57,56 @@
               <button type="submit" class="btn btn-primary">save</button>
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
-		</div>
-	  </div>
-
-		  
-  </div>
-  </div>
-
-  {% for card in cards %}
-  <div class="jumbotron">
-    <div class="container">
-      <form>
-        <div class="card">
-          <h4 class="card-header">Flaskcard</h4>
-          <div class="card text-center">
-            <div class="card-body">
-              <h4 class="card-title">{{card['title']}}</h4>
-              <p class="card-text">{{card['category']}}</p>
-              <button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#editModal">edit</button>
-			  <a class="btn-primary btn-lg" href="/card" role="button">Go to Card</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% for set in sets %}
+    <div class="jumbotron">
+      <div class="container">
+        <form>
+          <div class="card">
+            <h4 class="card-header">Flaskcard</h4>
+            <div class="card text-center">
+              <div class="card-body">
+                <h4 class="card-title">{{set['title']}}</h4>
+                <p class="card-text">{{set['category']}}</p>
+                <button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#editModal">edit</button>
+                <a class="btn-primary btn-lg" href="/card" role="button">Go to Card</a>
+              </div>
             </div>
-      </form>
-      <div class="modal fade" id="editModal" role="dialog">
-        <div class="modal-dialog">
+          </div>
+        </form>
+        <div class="modal fade" id="editModal" role="dialog">
+          <div class="modal-dialog">
           <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Editing Flask Card</h4>
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Editing Flask Card</h4>
+              </div>
+              <div class="modal-body">
+                <form action="/Homepage" method="post">
+                  <div class="form-group">
+                    <label for="title">title</label>
+                    <input type="text" class="form-control" placeholder="description" value="{{request.form.title}}">
+                    <label for="category">category</label>
+                    <input type="text" class="form-control" placeholder="description" value="{{request.form.title}}">
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
             </div>
-            <div class="modal-body">
-              <form action="/Homepage" method="post">
-                <div class="form-group">
-                  <label for="title">title</label>
-                  <input type="text" class="form-control" placeholder="description" value="{{request.form.title}}">
-                  <label for="category">category</label>
-                  <input type="text" class="form-control" placeholder="description" value="{{request.form.title}}">
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">save</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-		</div>
-	  </div>
-	</div>
-</div>
-</div>
-</div>
-</div>
-            {% endfor %} }
-
-			<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-</body>
-
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  </body>
 </html>
