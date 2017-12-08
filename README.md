@@ -47,8 +47,7 @@ The user is then redirected to the card preview page. In this page the user can 
 
 ## Entity Relationship Diagram
 
-![ERD]
-(ERD.png)
+[![ERD](ERD.png)]
 
 
 ## Explanation of CRUD
